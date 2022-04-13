@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h2 class="mt-3">{{ display_melon.common_name }}</h2>
+
+    <div class="row">
+
+        <div class="col-6">
+            <img src="{{ display_melon.image_url }}" class="img-responsive">
+        </div>
+
+        <div class="col-3">
+            <div class="card text-center bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Price per melon</h5>
+                    <div class="card-text">{{ display_melon.price_str() }}</div>
+                    <a class="btn btn-primary" href="/add_to_cart/{{ display_melon.melon_id }}">Add to cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="melon-details">
+
+        <h3>Product details</h3>
+
+        <ul>
+            <li>Melon type: {{ display_melon.melon_type }}</li>
+            <li>Color: {{ display_melon.color }}</li>
+            {% if display_melon.seedless %}
+              <li>Seedless melon</li>
+            {% else %}
+              <li class='warning'>Warning! This melon has seeds</li>
+            {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}

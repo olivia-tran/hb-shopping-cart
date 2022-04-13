@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2>Top Selling Melons</h2>
+
+    <div id="melon-list" class="row">
+      {% for melon in melon_list %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 melon-summary mt-3">
+
+              <div class="card text-center bg-light">
+                <a href="/melon/{{ melon.melon_id }}">
+                    <img class="card-img-top img-circle" src="{{ melon.image_url }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title"><a href="/melon/{{ melon.melon_id }}">{{ melon.common_name }}</a></h5>
+                    <div class="price card-text">{{ melon.price_str() }}</div>
+                    <a class="btn btn-primary" href="/melon/{{ melon.melon_id }}">Details</a>
+                </div>
+              </div>
+          </div>
+      {% endfor %}
+    </div>
+
+{% endblock %}
