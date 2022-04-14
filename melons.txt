@@ -1,5 +1,5 @@
 cren|Hybrid|Crenshaw|2|https://specialtyproduce.com/sppics/77663.png|green|1
-alib|Watermelon|Ali Baba Watermelon|2.5|https://specialtyproduce.com/sppics/77663.png|green|1
+alib|Watermelon|Ali Baba Watermelon|2.5|https://cdn.shopify.com/s/files/1/2016/2681/products/watermelon-shiny-boy-hybrid-seed-wm_700.jpg?v=1562984846|green|1
 anci|Watermelon|Ancient Watermelon|3|http://www.rareseeds.com/assets/1/14/DimThumbnail/Ancient-Watermelon-web.jpg|green|0
 arkb|Watermelon|Arkansas Black Watermelon|4|http://www.rareseeds.com/assets/1/14/DimThumbnail/Arkansas-Black-Watermelon-web.jpg|black|1
 chrc|Watermelon|Chris Cross Watermelon|2.5|http://www.rareseeds.com/assets/1/14/DimThumbnail/watermelon-criss-cross.jpg|green|0
