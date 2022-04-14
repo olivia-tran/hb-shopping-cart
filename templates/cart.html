@@ -2,9 +2,6 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1>SESSION HERE:</h1>
-{{ session }}
-
     <table class="table table-striped mt-3">
         <thead>
         <tr>
@@ -15,10 +12,10 @@
         </tr>
         </thead>
         <tbody>
-        {% for melon, quantity in melons_in_cart.items() %}    
+        {% for melon in melons_in_cart %}    
         <tr>
             <td>{{ melon.common_name }}</td>
-            <td>{{ quantity }}</td>
+            <td>{{ melon.quantity }}</td>
             <td>${{ melon.price }}</td>
             <td>{{ melon.cost_by_item }}</td>
         </tr>
