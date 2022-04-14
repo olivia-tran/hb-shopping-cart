@@ -65,24 +65,30 @@ def show_shopping_cart():
     # The logic here will be something like:
     #
     # - get the cart dictionary from the session
+
+    melon_id_list = request.args.getlist(session['cart'])  # added .args
+
+    # total_cost += request.args.get(session['cart'][3])
     total_cost = 0
+# - create a list to hold melon objects and a variable to hold the total
+#   cost of the order
 
-    melon_id_list = request.getlist(session['cart'][1])
+# - loop over the cart dictionary, and for each melon id:
+    for melon_id, quantity in melon_id_list.items():
+        melon = melons.get_by_id(melon_id)
 
-    # - create a list to hold melon objects and a variable to hold the total
-    #   cost of the order
-    # - loop over the cart dictionary, and for each melon id:
-    #    - get the corresponding Melon object
-    #    - compute the total cost for that type of melon
-    #    - add this to the order total
-    #    - add quantity and total cost as attributes on the Melon object
-    #    - add the Melon object to the list created above
-    # - pass the total order cost and the list of Melon objects to the template
-    #
-    # Make sure your function can also handle the case wherein no cart has
-    # been added to the session
 
-    return render_template("cart.html", session=session)
+#    - get the corresponding Melon object
+#    - compute the total cost for that type of melon
+#    - add this to the order total
+#    - add quantity and total cost as attributes on the Melon object
+#    - add the Melon object to the list created above
+# - pass the total order cost and the list of Melon objects to the template
+#
+# Make sure your function can also handle the case wherein no cart has
+# been added to the session
+
+    return render_template("cart.html", session=session, melon_id_list=melon_id_list)
 
 
 @app.route("/add_to_cart/<melon_id>")
@@ -98,12 +104,8 @@ def add_to_cart(melon_id):
     # The logic here should be something like:
     session.modified = True
     session['cart'] = {}
-    if melon_id not in session['cart']:
-        session['cart'] = melon_id
-    else:
-        session['cart'] += 1
 
-    flash("Melon added to the card.")
+    flash("Melon successfully added to cart.")
 
     # - check if a "cart" exists in the session, and create one (an empty
     #   dictionary keyed to the string "cart") if not
