@@ -66,29 +66,38 @@ def show_shopping_cart():
     #
     # - get the cart dictionary from the session
 
-    melon_id_list = request.args.getlist(session['cart'])  # added .args
+    # melon_id_list = request.args.getlist(session['cart'])  # added .args
+    melons_in_cart = session['cart']
 
     # total_cost += request.args.get(session['cart'][3])
-    total_cost = 0
+    total_cost = 0  # check out cost of all items
+    cost_by_item = 0  # total cost of each item in the cart
 # - create a list to hold melon objects and a variable to hold the total
 #   cost of the order
 
 # - loop over the cart dictionary, and for each melon id:
-    for melon_id, quantity in melon_id_list.items():
-        melon = melons.get_by_id(melon_id)
+    for melon_id, quantity in melons_in_cart.items():
+        #    - get the corresponding Melon object
 
+        # melon = melons.get_by_id(melon_id)
+        melon = melons.melon_types[melon_id]
+        #    - compute the total cost for that type of melon
 
-#    - get the corresponding Melon object
-#    - compute the total cost for that type of melon
-#    - add this to the order total
-#    - add quantity and total cost as attributes on the Melon object
-#    - add the Melon object to the list created above
-# - pass the total order cost and the list of Melon objects to the template
+        #    - add this to the order total
+        cost_by_item = (quantity * melon.price)
+        total_cost += cost_by_item
+        #    - add quantity and total cost as attributes on the Melon object
+
+        melon.cost_by_item = cost_by_item
+        melon.quantity = quantity
+
+        #    - add the Melon object to the list created above
+        # - pass the total order cost and the list of Melon objects to the template
 #
 # Make sure your function can also handle the case wherein no cart has
 # been added to the session
 
-    return render_template("cart.html", session=session, melon_id_list=melon_id_list)
+    return render_template("cart.html", session=session, melons_in_cart=melons_in_cart, total_cost=total_cost)
 
 
 @app.route("/add_to_cart/<melon_id>")
@@ -101,30 +110,71 @@ def add_to_cart(melon_id):
 
     # TODO: Finish shopping cart functionality
 
-    # The logic here should be something like:
     session.modified = True
-    session['cart'] = {}
-
-    flash("Melon successfully added to cart.")
 
     # - check if a "cart" exists in the session, and create one (an empty
     #   dictionary keyed to the string "cart") if not
+
+    # cart_content = [] #[{melon_id: qty}, {melon_id: qty}]
+    # session['cart'] = {cart : {melon_id: qty}, cart: {melon_id: qty}}
+    # session['cart'] is a key in the session dictionary
+
+    # cart_content.append(melon_item)
+
+    # adding dict {melon_id: qty} into list
+    # melon_item = {}
+
+    # check to see if the session already contains a cart
+
+    # if session['cart'] is None:
+    # if 'cart' not in session:
+    #     session['cart'] = {}
+
+   # if not session.get('cart') is None:
+
+    # If not, add a new cart (an empty dictionary) to the session.
+
+    # if not melon_item:
+    #     melon_item('cart', {})
+
     # - check if the desired melon id is the cart, and if not, put it in
     # - increment the count for that melon id by 1
+
+    melons_in_cart = session['cart']
+    if melon_id not in melons_in_cart:
+        melons_in_cart[melon_id] = 1
+    else:
+        # session['cart'] = {melon_id: qty, melon_id: qty, melon_id: qty}
+        melons_in_cart[melon_id] += 1
+
+    flash("Melon successfully added to cart.")
+
     # - flash a success message
     # - redirect the user to the cart page
 
-    return render_template("cart.html")
+    # return render_template("cart.html")
+    return redirect("/cart")
 
 
-@app.route("/login", methods=["GET"])
+"""  session.modified = True
+    session['cart'] = {}
+    if melon_id not in session['cart']:
+        session['cart'] = melon_id
+    else:
+        session['cart'] += 1
+
+    flash("Melon added to the card.")
+"""
+
+
+@ app.route("/login", methods=["GET"])
 def show_login():
     """Show login form."""
 
     return render_template("login.html")
 
 
-@app.route("/login", methods=["POST"])
+@ app.route("/login", methods=["POST"])
 def process_login():
     """Log user into site.
 
@@ -149,7 +199,7 @@ def process_login():
     return "Oops! This needs to be implemented"
 
 
-@app.route("/checkout")
+@ app.route("/checkout")
 def checkout():
     """Checkout customer, process payment, and ship melons."""
 
@@ -161,4 +211,4 @@ def checkout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True)
